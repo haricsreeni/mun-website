@@ -10,7 +10,7 @@ export default function Navbar() {
         { label: 'Committees', href: '/#committees' },
         { label: 'About', href: '/#about' },
         { label: 'FAQ', href: '/#faq' },
-        { label: 'Contact', href: '/#footer' },
+        { label: 'Contact', href: '/#contact' },
     ];
 
     const handleNavClick = (href) => {
@@ -55,8 +55,8 @@ export default function Navbar() {
                     <Link
                         to="/register"
                         className={`px-6 py-2 rounded-full text-[10px] font-bold tracking-[0.15em] uppercase transition-all duration-300 ${isRegisterPage
-                                ? 'bg-white text-primary hover:bg-white/90'
-                                : 'border border-white/30 hover:bg-white hover:text-primary'
+                            ? 'bg-white text-primary hover:bg-white/90'
+                            : 'border border-white/30 hover:bg-white hover:text-primary'
                             }`}
                     >
                         Register

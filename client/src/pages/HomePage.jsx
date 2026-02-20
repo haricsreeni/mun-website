@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SectionSeparator from '../components/SectionSeparator';
 
-/* ─── Data ──────────────────────────────── */
+const CONTACT_API = '/api/contact';
 const stats = [
     { icon: 'groups', value: '500+', label: 'Delegates' },
     { icon: 'gavel', value: '12', label: 'Committees' },
@@ -210,6 +211,133 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
+
+            <SectionSeparator />
+
+            {/* ===== CONTACT US ===== */}
+            <ContactSection />
         </>
+    );
+}
+
+/* ─── Contact Section (separate component for state) ─── */
+function ContactSection() {
+    const [contactData, setContactData] = useState({ email: '', query: '' });
+    const [contactStatus, setContactStatus] = useState('idle'); // idle | loading | success | error
+    const [contactError, setContactError] = useState('');
+
+    const handleContactSubmit = async (e) => {
+        e.preventDefault();
+        setContactStatus('loading');
+        setContactError('');
+
+        try {
+            const res = await fetch(CONTACT_API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(contactData),
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || 'Failed to submit query');
+            }
+
+            setContactStatus('success');
+            setContactData({ email: '', query: '' });
+        } catch (err) {
+            setContactError(err.message);
+            setContactStatus('error');
+        }
+    };
+
+    return (
+        <section className="py-32 px-6 relative overflow-hidden" id="contact">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-red-600 rounded-full opacity-10 blur-[150px]" />
+            </div>
+
+            <div className="max-w-3xl mx-auto relative z-10">
+                <div className="text-center mb-16">
+                    <span className="text-[10px] tracking-[0.4em] uppercase text-white/50 mb-4 block">Get In Touch</span>
+                    <h2 className="text-5xl font-thin uppercase tracking-tight">
+                        Contact <span className="font-bold">Us</span>
+                    </h2>
+                    <div className="h-px w-24 bg-white/30 mx-auto my-6" />
+                    <p className="text-white/60 font-light text-base max-w-lg mx-auto">
+                        Have a question about IITM MUN 2026? Drop us a message and we'll get back to you shortly.
+                    </p>
+                </div>
+
+                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 md:p-12 backdrop-blur-sm">
+                    {contactStatus === 'success' ? (
+                        <div className="flex flex-col items-center justify-center py-12 text-center">
+                            <div className="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mb-6">
+                                <span className="material-symbols-outlined text-3xl text-white">check_circle</span>
+                            </div>
+                            <h3 className="text-2xl font-thin mb-3">
+                                Query <span className="font-bold">Submitted</span>
+                            </h3>
+                            <p className="text-white/60 font-light max-w-md mb-6">
+                                Thank you for reaching out! We'll respond to your email shortly.
+                            </p>
+                            <button
+                                onClick={() => setContactStatus('idle')}
+                                className="px-8 py-3 border border-white/30 rounded-full text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-white hover:text-primary transition-all duration-300"
+                            >
+                                Send Another Query
+                            </button>
+                        </div>
+                    ) : (
+                        <form onSubmit={handleContactSubmit}>
+                            {contactError && (
+                                <div className="mb-6 p-4 bg-red-900/40 border border-red-500/30 rounded-xl text-sm text-red-200 font-light">
+                                    {contactError}
+                                </div>
+                            )}
+
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="block text-[11px] tracking-wider uppercase text-white/40 mb-2 font-medium">
+                                        Your Email *
+                                    </label>
+                                    <input
+                                        className="form-input-style"
+                                        type="email"
+                                        placeholder="you@example.com"
+                                        required
+                                        value={contactData.email}
+                                        onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-[11px] tracking-wider uppercase text-white/40 mb-2 font-medium">
+                                        Your Query *
+                                    </label>
+                                    <textarea
+                                        className="form-input-style resize-none"
+                                        placeholder="Type your question or message here..."
+                                        rows="5"
+                                        required
+                                        value={contactData.query}
+                                        onChange={(e) => setContactData({ ...contactData, query: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="mt-8 flex justify-center">
+                                <button
+                                    type="submit"
+                                    disabled={contactStatus === 'loading'}
+                                    className="w-full md:w-auto md:min-w-[280px] py-4 px-12 bg-white text-primary font-bold tracking-[0.15em] uppercase rounded-full hover:bg-opacity-90 hover:scale-[1.02] transition-all duration-300 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {contactStatus === 'loading' ? 'Submitting...' : 'Submit Query'}
+                                </button>
+                            </div>
+                        </form>
+                    )}
+                </div>
+            </div>
+        </section>
     );
 }
