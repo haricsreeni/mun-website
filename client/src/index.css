@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Scrollbar ───────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #7a0000;
+}
+::-webkit-scrollbar-thumb {
+  background: #ff4d4d;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff8080;
+}
+
+/* ── Glass Navbar ────────────────────────── */
+.glass-nav {
+  background: rgba(152, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ── Mask Image Gradient ─────────────────── */
+.mask-image-gradient {
+  mask-image: radial-gradient(circle, black 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle, black 60%, transparent 100%);
+}
+
+/* ── Section Separator ───────────────────── */
+.section-separator {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+/* ── Form Input Styles ───────────────────── */
+.form-input-style {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 300;
+  transition: all 0.3s ease;
+  width: 100%;
+  outline: none;
+  font-family: 'Manrope', sans-serif;
+}
+.form-input-style::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 300;
+}
+.form-input-style:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.15);
+}
+.form-input-style option {
+  background: #980000;
+  color: white;
+}
+
+/* ── Radio Card ──────────────────────────── */
+.radio-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.radio-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.radio-card.selected {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Animations ──────────────────────────── */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.3; }
+}
+.animate-glow-pulse {
+  animation: glow-pulse 6s ease-in-out infinite;
+}
+.animate-glow-pulse-delayed {
+  animation: glow-pulse 8s ease-in-out infinite 2s;
+}
