@@ -4,7 +4,7 @@ const cors = require('cors');
 const sequelize = require('./db');
 const Registration = require('./models/Registration');
 const ContactQuery = require('./models/ContactQuery');
-const { sendContactNotification } = require('./mailer');
+const { sendContactNotification, sendRegistrationConfirmation } = require('./mailer');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -24,6 +24,12 @@ app.post('/api/register', async (req, res) => {
             message: 'Registration successful!',
             data: registration,
         });
+
+        // Send registration confirmation email (non-blocking)
+        // Convert to plain object to ensure fields are available to mailer
+        const regPlain = registration.get ? registration.get({ plain: true }) : registration;
+        sendRegistrationConfirmation(regPlain)
+            .catch((err) => console.error('Registration email send error:', err.message));
     } catch (err) {
         if (err.name === 'SequelizeValidationError' || err.name === 'SequelizeDatabaseError') {
             const messages = err.errors
