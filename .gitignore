@@ -1,6 +1,2 @@
-./server/.env
-./client/.env
-./server/node_modules
-./client/node_modules   
-
-
+.env
+node_modules/
