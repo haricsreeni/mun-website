@@ -1,6 +1,8 @@
+import theme from '../config/theme';
+
 export default function Footer() {
     return (
-        <footer className="bg-[#1a0000] text-white/60 py-20 px-6 border-t border-white/5" id="footer">
+        <footer style={{ backgroundColor: theme.footerBg }} className="text-white/60 py-20 px-6 border-t border-white/5" id="footer">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
                 {/* Brand */}
                 <div>

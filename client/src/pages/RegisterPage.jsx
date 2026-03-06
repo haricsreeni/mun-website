@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const API_URL = '/api/register';
+const API_URL = `${import.meta.env.VITE_API_URL || ''}/api/register`;
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({

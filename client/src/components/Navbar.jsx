@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -23,7 +24,12 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="fixed top-0 left-0 w-full z-50 glass-nav h-20 flex items-center">
+        <motion.nav
+            className="fixed top-0 left-0 w-full z-50 glass-nav h-20 flex items-center"
+            initial={{ y: -80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
             <div className="max-w-7xl mx-auto w-full px-6 flex items-center justify-between">
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-3 group">
@@ -38,15 +44,18 @@ export default function Navbar() {
 
                 {/* Desktop Nav Links */}
                 <div className="hidden md:flex items-center gap-10">
-                    {navLinks.map((link) => (
-                        <a
+                    {navLinks.map((link, i) => (
+                        <motion.a
                             key={link.label}
                             href={link.href}
                             onClick={() => handleNavClick(link.href)}
                             className="text-[11px] font-medium tracking-[0.2em] hover:text-white/60 transition-colors uppercase"
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 + i * 0.1, duration: 0.4 }}
                         >
                             {link.label}
-                        </a>
+                        </motion.a>
                     ))}
                 </div>
 
@@ -74,7 +83,12 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             {mobileOpen && (
-                <div className="md:hidden absolute top-20 left-0 w-full bg-primary/95 backdrop-blur-lg border-b border-white/10 py-6 px-6 space-y-4">
+                <motion.div
+                    className="md:hidden absolute top-20 left-0 w-full bg-primary/95 backdrop-blur-lg border-b border-white/10 py-6 px-6 space-y-4"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                >
                     {navLinks.map((link) => (
                         <a
                             key={link.label}
@@ -85,8 +99,8 @@ export default function Navbar() {
                             {link.label}
                         </a>
                     ))}
-                </div>
+                </motion.div>
             )}
-        </nav>
+        </motion.nav>
     );
 }

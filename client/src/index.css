@@ -6,22 +6,25 @@
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #7a0000;
+  background: var(--scrollbar-track);
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #ff4d4d;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff8080;
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* ── Glass Navbar ────────────────────────── */
 .glass-nav {
-  background: rgba(152, 0, 0, 0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--glass-nav-bg);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* ── Mask Image Gradient ─────────────────── */
@@ -33,7 +36,7 @@
 /* ── Section Separator ───────────────────── */
 .section-separator {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
 }
 
 /* ── Form Input Styles ───────────────────── */
@@ -50,17 +53,20 @@
   outline: none;
   font-family: 'Manrope', sans-serif;
 }
+
 .form-input-style::placeholder {
   color: rgba(255, 255, 255, 0.35);
   font-weight: 300;
 }
+
 .form-input-style:focus {
   border-color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.15);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
+
 .form-input-style option {
-  background: #980000;
+  background: var(--form-option-bg);
   color: white;
 }
 
@@ -73,23 +79,372 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
+
 .radio-card:hover {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.25);
 }
+
 .radio-card.selected {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.4);
 }
 
+/* ── Badge Card (EA Connect inspired) ────── */
+.badge-card {
+  position: relative;
+  border-radius: 1.25rem;
+  padding: 2.5rem 2rem;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+}
+
+.badge-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.badge-card::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 20px;
+  border-radius: 0 0 30px 30px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Sidebar Tracker ─────────────────────── */
+.sidebar-tracker {
+  position: fixed;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.sidebar-tracker .track-line {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  transition: background 0.3s ease;
+}
+
+.sidebar-tracker .track-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.sidebar-tracker .track-dot.active {
+  background: white;
+  border-color: white;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-tracker .track-label {
+  position: absolute;
+  left: 20px;
+  white-space: nowrap;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.4);
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.sidebar-tracker .track-dot:hover+.track-label,
+.sidebar-tracker .track-dot.active+.track-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── Floating CTA (partial circle, EA Connect) ── */
+.floating-cta-wrapper {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 45;
+  pointer-events: none;
+}
+
+.floating-cta {
+  display: block;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: var(--cta);
+  color: white;
+  text-decoration: none;
+  transform: translate(35%, 35%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background 0.3s ease;
+  cursor: pointer;
+  pointer-events: all;
+  position: relative;
+}
+
+.floating-cta:hover {
+  transform: translate(32%, 32%);
+  background: var(--cta-hover);
+}
+
+.floating-cta-content {
+  position: absolute;
+  top: 70px;
+  left: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 120px;
+}
+
+.floating-cta-date {
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.8;
+  letter-spacing: 0.01em;
+}
+
+.floating-cta-sub {
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+
+.floating-cta-main {
+  font-family: 'Manrope', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+/* ── Particle Field ──────────────────────── */
+.particle-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle-field .particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.particle-field .line-connector {
+  position: absolute;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  transform-origin: left center;
+}
+
+@keyframes particle-float {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(15px, -20px);
+  }
+
+  50% {
+    transform: translate(-10px, 15px);
+  }
+
+  75% {
+    transform: translate(20px, 10px);
+  }
+}
+
+@keyframes particle-float-alt {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(-20px, 10px);
+  }
+
+  50% {
+    transform: translate(10px, -15px);
+  }
+
+  75% {
+    transform: translate(-15px, -20px);
+  }
+}
+
+/* ── FAQ Accordion ───────────────────────── */
+.faq-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.faq-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.faq-card.open {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.faq-card .faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.faq-card .faq-question:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.faq-card .faq-answer {
+  padding: 0 2rem 1.5rem;
+}
+
 /* ── Animations ──────────────────────────── */
 @keyframes glow-pulse {
-  0%, 100% { opacity: 0.15; }
-  50% { opacity: 0.3; }
+
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
 }
+
 .animate-glow-pulse {
   animation: glow-pulse 6s ease-in-out infinite;
 }
+
 .animate-glow-pulse-delayed {
   animation: glow-pulse 8s ease-in-out infinite 2s;
+}
+
+/* ── Responsive ──────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar-tracker {
+    display: none;
+  }
+
+  /* Smaller partial circle on tablet/mobile */
+  .floating-cta {
+    width: 150px;
+    height: 150px;
+    transform: translate(38%, 38%);
+  }
+
+  .floating-cta:hover {
+    transform: translate(35%, 35%);
+  }
+
+  .floating-cta-content {
+    top: 38px;
+    left: 30px;
+    max-width: 70px;
+  }
+
+  .floating-cta-main {
+    font-size: 13px;
+  }
+
+  .floating-cta-date {
+    font-size: 9px;
+  }
+
+  .floating-cta-sub {
+    display: none;
+  }
+
+  /* Badge cards: full width on mobile */
+  .badge-card {
+    padding: 2rem 1.5rem;
+    min-height: 180px;
+    border-radius: 18px;
+  }
+
+  .badge-card::before {
+    width: 50px;
+    height: 16px;
+    border-radius: 0 0 25px 25px;
+  }
+
+  /* FAQ cards more compact */
+  .faq-card .faq-question {
+    padding: 1rem 1.25rem;
+  }
+
+  .faq-card .faq-answer {
+    padding: 0 1.25rem 1.25rem;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .floating-cta {
+    width: 120px;
+    height: 120px;
+    transform: translate(38%, 38%);
+  }
+
+  .floating-cta:hover {
+    transform: translate(35%, 35%);
+  }
+
+  .floating-cta-content {
+    top: 30px;
+    left: 24px;
+    max-width: 55px;
+  }
+
+  .floating-cta-main {
+    font-size: 12px;
+  }
+
+  .floating-cta-date {
+    display: none;
+  }
+
+  .badge-card {
+    padding: 1.5rem 1.25rem;
+    min-height: 160px;
+  }
 }
