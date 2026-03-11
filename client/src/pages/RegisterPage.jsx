@@ -45,6 +45,11 @@ export default function RegisterPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
+    // Scroll to top on mount
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     // Sync delegate array length with groupCount
     useEffect(() => {
         if (regType === 'individual') {

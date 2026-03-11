@@ -10,7 +10,7 @@ const stats = [
     { icon: 'groups', value: '200+', label: 'Delegates' },
     { icon: 'gavel', value: '5', label: 'Committees' },
     { icon: 'public', value: '20+', label: 'Nations' },
-    { icon: 'event', value: '18–19', label: 'April 2026' },
+    { icon: 'emoji_events', value: '75k', label: 'Prize Pool' },
 ];
 
 const committees = [

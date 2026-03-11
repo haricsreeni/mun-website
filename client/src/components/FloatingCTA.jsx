@@ -1,7 +1,13 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function FloatingCTA() {
+    const location = useLocation();
+
+    if (location.pathname === '/register') {
+        return null;
+    }
+
     return (
         <motion.div
             className="floating-cta-wrapper"
