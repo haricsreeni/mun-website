@@ -5,6 +5,7 @@ import FloatingCTA from './components/FloatingCTA';
 import SidebarTracker from './components/SidebarTracker';
 import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
+import TermsPage from './pages/TermsPage';
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/terms" element={<TermsPage />} />
             </Routes>
             <Footer />
         </>

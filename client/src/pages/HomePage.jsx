@@ -7,23 +7,26 @@ import theme from '../config/theme';
 
 const CONTACT_API = `${import.meta.env.VITE_API_URL || ''}/api/contact`;
 const stats = [
-    { icon: 'groups', value: '500+', label: 'Delegates' },
-    { icon: 'gavel', value: '12', label: 'Committees' },
+    { icon: 'groups', value: '200+', label: 'Delegates' },
+    { icon: 'gavel', value: '5', label: 'Committees' },
     { icon: 'public', value: '20+', label: 'Nations' },
-    { icon: 'trophy', value: '₹1.5L', label: 'Prize Pool' },
+    { icon: 'event', value: '18–19', label: 'April 2026' },
 ];
 
 const committees = [
-    { name: 'UNSC', desc: 'United Nations Security Council: Addressing immediate threats to global peace and stability.', color: theme.committeeCards[0], text: 'text-white' },
-    { name: 'DISEC', desc: 'Disarmament and International Security Committee: Focusing on arms control and global security challenges.', color: theme.committeeCards[1], text: 'text-white' },
-    { name: 'UNHRC', desc: 'United Nations Human Rights Council: Protecting fundamental freedoms and rights across the globe.', color: theme.committeeCards[2], text: 'text-white' },
-    { name: 'CRISIS', desc: 'Crisis Committee: Addressing immediate threats to global peace and stability.', color: theme.committeeCards[3], text: 'text-white' },
+    { name: 'UNGA', desc: 'Step into the theater of real-world impact where negotiation meets necessity, transforming the friction of competing agendas into a singular, universal consensus.', color: theme.committeeCards[0], text: 'text-white' },
+    { name: 'Crisis Committee', desc: 'Events unfold in real time as delegates navigate the complex interaction between artificial intelligence, surveillance, and privacy. Through secret directives, intelligence leaks, and fast-changing situations, every decision carries weight.', color: theme.committeeCards[1], text: 'text-white' },
+    { name: 'WTO CTD', desc: 'The Committee on Trade and Development tackles the 2026 "Subsidy Race" and trade wars to draft a "Framework for Economic Resilience" that protects emerging markets from superpower decoupling.', color: theme.committeeCards[2], text: 'text-white' },
+    { name: 'PM Council', desc: 'A high-stakes executive simulation where 30 Ministers must navigate budget wars and departmental friction to reach a mandatory consensus, drafting a technically airtight Cabinet Note that balances national survival with cold, hard fiscal reality.', color: theme.committeeCards[3], text: 'text-white' },
+    { name: 'International Press', desc: 'Step behind the lens of raw reality — the frontline of visual truth. Wield the power of the frame to expose the unseen, transforming a single, frozen frame into a catalyst for real-world impact.', color: theme.committeeCards[4], text: 'text-white' },
 ];
 
 const faqs = [
-    { q: 'Who can participate in IITM MUN 2026?', a: 'Undergraduate students, high school students (9th-12th grade), and post-graduate students from any recognized institution are welcome.' },
-    { q: 'Will there be training for first-time delegates?', a: 'Yes, we host several online workshops leading up to the conference to ensure all delegates are familiar with Rules of Procedure.' },
-    { q: 'Is accommodation provided?', a: 'We provide limited on-campus accommodation and have tied up with local hotels for discounted rates for delegates.' },
+    { q: 'Who can participate in Sabha MUN 2026?', a: 'All college students from any recognized institution are eligible to participate. Whether you\'re a first-timer or a seasoned MUNner, Sabha welcomes you.' },
+    { q: 'What are the dates and venue?', a: 'The inauguration is on 17th April 2026 at 7 PM. The conference runs on 18–19 April 2026 at IIT Madras, Chennai.' },
+    { q: 'What is the registration fee?', a: 'Early Bird Individual Delegate Fee is ₹1,500. Registration fees are payable to the Student Activities Trust IIT Madras. Lunch will be provided for all delegates on conference days.' },
+    { q: 'Is accommodation provided?', a: 'Yes, on-campus accommodation at college hostels is available for ₹1,800. This includes basic amenities like a bed, bucket, and mug. You can opt-in during registration.' },
+    { q: 'Are there any campus rules I must follow?', a: 'Yes. IIT Madras enforces a strict code of conduct. Posession or use of drugs, alcohol, or smoking is strictly prohibited. Delegates must treat hostel property and campus wildlife with utmost respect. Violations lead to immediate expulsion.' },
 ];
 
 /* ─── Scroll-aware hook ─── */
@@ -37,6 +40,48 @@ function useScrolled(threshold = 80) {
     return scrolled;
 }
 
+/* ─── Countdown to 18 April 2026 ─── */
+function Countdown() {
+    const target = new Date('2026-04-18T09:00:00+05:30').getTime();
+    const [now, setNow] = useState(Date.now());
+
+    useEffect(() => {
+        const id = setInterval(() => setNow(Date.now()), 1000);
+        return () => clearInterval(id);
+    }, []);
+
+    const diff = Math.max(0, target - now);
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+
+    const units = [
+        { value: days, label: 'Days' },
+        { value: hours, label: 'Hrs' },
+        { value: minutes, label: 'Min' },
+        { value: seconds, label: 'Sec' },
+    ];
+
+    return (
+        <motion.div
+            className="mt-8 flex items-center justify-center gap-3"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.6 }}
+        >
+            {units.map((u) => (
+                <div key={u.label} className="flex flex-col items-center">
+                    <span className="text-2xl md:text-3xl font-thin tabular-nums text-white">
+                        {String(u.value).padStart(2, '0')}
+                    </span>
+                    <span className="text-[8px] tracking-[0.25em] uppercase text-white/40 mt-1">{u.label}</span>
+                </div>
+            ))}
+        </motion.div>
+    );
+}
+
 /* ─── Page ──────────────────────────────── */
 export default function HomePage() {
     const scrolled = useScrolled(100);
@@ -44,7 +89,7 @@ export default function HomePage() {
     return (
         <>
             {/* ===== HERO ===== */}
-            <main className="relative flex flex-col items-center justify-center min-h-screen w-full px-4 pt-20">
+            <main className="relative flex flex-col items-center justify-center min-h-screen w-full px-4 pt-20 pb-24">
                 {/* Clean dramatic background glows */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] ${theme.heroGlow1} rounded-full opacity-20 blur-[140px]`} />
@@ -54,20 +99,10 @@ export default function HomePage() {
                 </div>
 
                 <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-7xl mx-auto">
-                    {/* Floating Label Tags (EA Connect style) */}
-                    <motion.div
-                        className="flex flex-col items-center mb-16"
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.7 }}
-                    >
-                        <div className="w-2 h-2 bg-white rounded-full mb-3" />
-                        <span className="text-xs tracking-[0.3em] uppercase text-white/70 font-light">In-Person Conference</span>
-                    </motion.div>
 
                     {/* Title — Sabha in Samarkan, no letter spacing for connected shirorekha */}
                     <motion.h1
-                        className="text-center select-none"
+                        className="text-center select-none mt-20"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -98,58 +133,61 @@ export default function HomePage() {
                         </span>
                     </motion.h1>
 
-                    {/* Tagline */}
-                    <motion.div
-                        className="mt-6 md:mt-10 text-center max-w-xl px-4"
-                        initial={{ opacity: 0, y: 30 }}
+                    {/* One-liner */}
+                    <motion.p
+                        className="mt-6 md:mt-8 text-center text-sm md:text-base text-white/50 font-light max-w-xl px-4 leading-relaxed"
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6, duration: 0.8 }}
                     >
-                        <p className="font-serif text-xl md:text-2xl text-white/80 leading-relaxed">
-                            Diplomacy, debate, and collaboration<br />
-                            <em className="text-white font-medium">for impact.</em>
-                        </p>
-                        <p className="mt-4 text-sm text-white/50 font-light max-w-md mx-auto">
-                            Uniting the sharpest minds from across the nation to debate, negotiate, and resolve global crises.
-                        </p>
-                    </motion.div>
+                        Sabha's inaugural edition — from a Flagship Crisis Committee for tech minds, to the PM Council for policy enthusiasts, to the WTO for economics aficionados. One conference, every lens.
+                    </motion.p>
 
-                    {/* Floating Detail Tags */}
-                    <div className="flex flex-wrap items-center justify-center gap-8 md:gap-20 mt-14">
-                        <motion.div
-                            className="flex flex-col items-center"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.9, duration: 0.6 }}
-                        >
-                            <div className="w-1.5 h-1.5 bg-white/60 rounded-full mb-2" />
-                            <span className="text-sm md:text-base font-serif text-white/90">18–19 April</span>
-                            <span className="text-[10px] tracking-[0.2em] uppercase text-white/40 mt-1">2026</span>
-                        </motion.div>
-                        <motion.div
-                            className="flex flex-col items-center"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 1.1, duration: 0.6 }}
-                        >
-                            <div className="w-1.5 h-1.5 bg-white/60 rounded-full mb-2" />
-                            <span className="text-sm md:text-base font-serif text-white/90">Chennai, India</span>
-                            <span className="text-[10px] tracking-[0.2em] uppercase text-white/40 mt-1">IIT Madras</span>
-                        </motion.div>
-                    </div>
+                    {/* Early Bird + Countdown */}
+                    <motion.p
+                        className="mt-8 text-xs tracking-[0.3em] uppercase font-bold text-center"
+                        style={{ color: theme.cta }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.85, duration: 0.6 }}
+                    >
+                        ✦ Early Bird Registrations Open ✦
+                    </motion.p>
+                    <Countdown />
+
+                    {/* Date · Venue chips */}
+                    <motion.div
+                        className="flex flex-wrap items-center justify-center gap-3 mt-8"
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.2, duration: 0.6 }}
+                    >
+                        {[
+                            { label: '17 Apr', sub: 'Inauguration · 7 PM' },
+                            { label: '18–19 Apr', sub: 'Conference · 2026' },
+                            { label: 'IIT Madras', sub: 'Chennai, India' },
+                        ].map((t) => (
+                            <div
+                                key={t.label}
+                                className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.03]"
+                            >
+                                <span className="text-xs font-medium text-white/90">{t.label}</span>
+                                <span className="text-[9px] text-white/40 tracking-wider uppercase">{t.sub}</span>
+                            </div>
+                        ))}
+                    </motion.div>
                 </div>
 
-                {/* Scroll indicator — hides on scroll */}
+                {/* Scroll indicator — fixed to viewport bottom, hides on scroll */}
                 <AnimatePresence>
                     {!scrolled && (
                         <motion.div
-                            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.5 }}
-                            exit={{ opacity: 0, y: 10 }}
+                            className="fixed bottom-4 left-1/2 flex flex-col items-center z-40 pointer-events-none"
+                            initial={{ opacity: 0, x: '-50%' }}
+                            animate={{ opacity: 0.5, x: '-50%' }}
+                            exit={{ opacity: 0, x: '-50%', y: 10 }}
                             transition={{ duration: 0.4 }}
                         >
-                            <span className="text-[10px] tracking-[0.2em] uppercase">Scroll</span>
                             <span className="material-symbols-outlined text-lg animate-bounce">keyboard_arrow_down</span>
                         </motion.div>
                     )}
@@ -172,7 +210,7 @@ export default function HomePage() {
                                     </h2>
                                 </div>
                                 <p className="text-white/70 font-light leading-relaxed text-base md:text-xl max-w-md">
-                                    Experience the pinnacle of diplomatic discourse in the heart of Chennai. IITM MUN 2026
+                                    Experience the pinnacle of diplomatic discourse in the heart of Chennai. Sabha MUN 2026
                                     brings together the sharpest minds to debate, negotiate, and resolve global crises in a
                                     setting of unparalleled prestige.
                                 </p>
@@ -219,11 +257,12 @@ export default function HomePage() {
                             </h2>
                         </div>
                     </ScrollReveal>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto">
+                    <div className="flex flex-wrap justify-center gap-4 md:gap-8 max-w-4xl mx-auto">
                         {committees.map((c, i) => (
                             <ScrollReveal key={c.name} delay={i * 0.12}>
                                 <div
-                                    className={`badge-card ${c.color} ${c.text} border border-white/10`}
+                                    className={`badge-card ${c.color} ${c.text} border border-white/10 w-full`}
+                                    style={{ width: '100%', maxWidth: '400px', minWidth: '280px' }}
                                 >
                                     <h3 className="text-3xl md:text-4xl font-serif mb-4">{c.name}</h3>
                                     <p className="text-sm font-light leading-relaxed opacity-80">{c.desc}</p>
@@ -243,32 +282,39 @@ export default function HomePage() {
                         <h2 className="text-3xl md:text-6xl font-serif mb-6 md:mb-8">
                             Join the <span className="italic font-medium">Dialogue</span>
                         </h2>
-                        <p className="text-white/70 font-light text-base md:text-lg mb-10 md:mb-14 max-w-lg mx-auto">
-                            Secure your place among the next generation of global leaders. Registrations for the 2026
-                            edition are now open.
+                        <p className="text-white/70 font-light text-base md:text-lg mb-4 max-w-lg mx-auto">
+                            Secure your place among the next generation of global leaders. Registrations for Sabha MUN 2026 are now open.
+                        </p>
+                        <p className="text-white/40 font-light text-sm mb-10 md:mb-14 max-w-md mx-auto">
+                            Eligibility: College Students · Venue: IIT Madras
                         </p>
                         <div className="flex flex-col md:flex-row gap-5 md:gap-8 justify-center">
                             <ScrollReveal delay={0.15} direction="left">
                                 <div className="bg-white/5 p-6 md:p-10 border border-white/20 rounded-2xl flex flex-col items-center">
-                                    <span className="text-xs tracking-[0.3em] uppercase opacity-50 mb-4">Phase 1</span>
+                                    <span className="text-xs tracking-[0.3em] uppercase opacity-50 mb-4">Early Bird</span>
                                     <h3 className="text-2xl font-bold font-serif mb-2">Individual Delegate</h3>
-                                    <p className="text-3xl font-thin mb-8">₹1200</p>
+                                    <p className="text-3xl font-thin mb-2">₹1,500</p>
+                                    <p className="text-xs text-white/40 mb-8">+ ₹1,800 for accommodation</p>
                                     <Link
                                         to="/register"
                                         className="w-full py-4 bg-white text-primary font-bold tracking-widest uppercase rounded-full hover:bg-opacity-90 transition-all text-center block text-sm"
                                     >
-                                        Apply Now
+                                        Register Now
                                     </Link>
                                 </div>
                             </ScrollReveal>
                             <ScrollReveal delay={0.3} direction="right">
                                 <div className="bg-white/5 p-6 md:p-10 border border-white/20 rounded-2xl flex flex-col items-center">
-                                    <span className="text-xs tracking-[0.3em] uppercase opacity-50 mb-4">Phase 1</span>
-                                    <h3 className="text-2xl font-bold font-serif mb-2">Institution</h3>
-                                    <p className="text-3xl font-thin mb-8">Contact Us</p>
-                                    <button className="w-full py-4 border border-white/30 text-white font-bold tracking-widest uppercase rounded-full hover:bg-white hover:text-primary transition-all text-sm">
-                                        Download Info
-                                    </button>
+                                    <span className="text-xs tracking-[0.3em] uppercase opacity-50 mb-4">Group</span>
+                                    <h3 className="text-2xl font-bold font-serif mb-2">Group Registration</h3>
+                                    <p className="text-3xl font-thin mb-2">₹1,500<span className="text-lg">/delegate</span></p>
+                                    <p className="text-xs text-white/40 mb-8">Register multiple delegates at once</p>
+                                    <Link
+                                        to="/register?type=group"
+                                        className="w-full py-4 border border-white/30 text-white font-bold tracking-widest uppercase rounded-full hover:bg-white hover:text-primary transition-all text-sm text-center block"
+                                    >
+                                        Group Register
+                                    </Link>
                                 </div>
                             </ScrollReveal>
                         </div>
@@ -280,6 +326,30 @@ export default function HomePage() {
 
             {/* ===== FAQ (Accordion Cards) ===== */}
             <FaqSection />
+
+            <SectionSeparator />
+
+            {/* ===== TERMS & CONDITIONS ===== */}
+            <section className="py-16 md:py-24 px-4 md:px-6 relative overflow-hidden">
+                <ScrollReveal>
+                    <div className="max-w-2xl mx-auto text-center">
+                        <span className="material-symbols-outlined text-4xl mb-4 block" style={{ color: theme.cta }}>gavel</span>
+                        <h2 className="text-2xl md:text-4xl font-serif mb-4">
+                            Terms & <span className="italic font-medium">Conditions</span>
+                        </h2>
+                        <p className="text-sm text-white/50 font-light max-w-md mx-auto mb-8 leading-relaxed">
+                            Please review our campus code of conduct, accommodation guidelines, and payment policies before registering.
+                        </p>
+                        <Link
+                            to="/terms"
+                            className="inline-flex items-center gap-2 px-8 py-3 border border-white/20 rounded-full text-sm tracking-widest uppercase font-medium hover:bg-white hover:text-primary transition-all duration-300"
+                        >
+                            Read Full Terms
+                            <span className="material-symbols-outlined text-base">arrow_forward</span>
+                        </Link>
+                    </div>
+                </ScrollReveal>
+            </section>
 
             <SectionSeparator />
 
@@ -391,9 +461,23 @@ function ContactSection() {
                             Contact <span className="italic font-medium">Us</span>
                         </h2>
                         <div className="h-px w-24 bg-white/30 mx-auto my-6" />
-                        <p className="text-white/60 font-light text-base max-w-lg mx-auto">
-                            Have a question about IITM MUN 2026? Drop us a message and we'll get back to you shortly.
+                        <p className="text-white/60 font-light text-base max-w-lg mx-auto mb-8">
+                            Have a question about Sabha MUN 2026? Drop us a message and we'll get back to you shortly.
                         </p>
+                        <div className="flex flex-wrap justify-center gap-x-10 gap-y-4 text-xs text-white/50 font-light">
+                            <p className="flex items-center gap-2">
+                                <span className="material-symbols-outlined text-sm">person</span>
+                                Maria Peeter (Secretary General): +91 8606507583
+                            </p>
+                            <p className="flex items-center gap-2">
+                                <span className="material-symbols-outlined text-sm">person</span>
+                                Ganesha (Director General): +91 6360664478
+                            </p>
+                            <p className="flex items-center gap-2">
+                                <span className="material-symbols-outlined text-sm">mail</span>
+                                ppc@smail.iitm.ac.in
+                            </p>
+                        </div>
                     </div>
                 </ScrollReveal>
 

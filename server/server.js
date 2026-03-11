@@ -18,21 +18,41 @@ app.use(express.json());
 
 // ─── Registration Routes ───────────────────────────────
 
-// POST /api/register — Create a new registration
+// POST /api/register — Create new registration(s)
 app.post('/api/register', async (req, res) => {
     try {
-        const registration = await Registration.create(req.body);
+        const { registrationType = 'individual', delegates } = req.body;
+
+        if (!delegates || !Array.isArray(delegates) || delegates.length === 0) {
+            return res.status(400).json({ success: false, message: 'At least one delegate is required.' });
+        }
+
+        // Generate a groupId for group registrations
+        const groupId = registrationType === 'group'
+            ? `GRP-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
+            : null;
+
+        // Attach registrationType and groupId to each delegate
+        const records = delegates.map((d) => ({
+            ...d,
+            registrationType,
+            groupId,
+        }));
+
+        const registrations = await Registration.bulkCreate(records, { validate: true });
+
         res.status(201).json({
             success: true,
-            message: 'Registration successful!',
-            data: registration,
+            message: `${registrations.length} delegate(s) registered successfully!`,
+            data: registrations,
         });
 
-        // Send registration confirmation email (non-blocking)
-        // Convert to plain object to ensure fields are available to mailer
-        const regPlain = registration.get ? registration.get({ plain: true }) : registration;
-        sendRegistrationConfirmation(regPlain)
-            .catch((err) => console.error('Registration email send error:', err.message));
+        // Send confirmation emails (non-blocking)
+        registrations.forEach((reg) => {
+            const regPlain = reg.get ? reg.get({ plain: true }) : reg;
+            sendRegistrationConfirmation(regPlain)
+                .catch((err) => console.error('Registration email send error:', err.message));
+        });
     } catch (err) {
         if (err.name === 'SequelizeValidationError' || err.name === 'SequelizeDatabaseError') {
             const messages = err.errors
