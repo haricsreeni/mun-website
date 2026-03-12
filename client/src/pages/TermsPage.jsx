@@ -38,7 +38,7 @@ export default function TermsPage() {
                                 <li>All registration payments must be made to the <strong>Student Activities Trust IIT Madras</strong>.</li>
                                 <li>Your registration is strictly provisional until the payment has been successfully completed and confirmed by our team.</li>
                                 <li>Fees once paid are entirely non-refundable and non-transferable under any circumstances.</li>
-                                <li>Lunch will be provided to all registered delegates on the days of the conference.</li>
+
                             </ul>
                         </section>
 
@@ -50,6 +50,7 @@ export default function TermsPage() {
                             </h2>
                             <ul className="list-disc pl-6 space-y-3 text-sm md:text-base">
                                 <li>Accommodation is provided inside the IIT Madras campus at the College Hostels, situated amidst serene greenery.</li>
+                                <li>Lunch will be provided to all registered delegates on the days of the conference.</li>
                                 <li>Delegates opting for accommodation will be provided with basic necessities, including a <strong>bed, bucket, and mug</strong>.</li>
                                 <li>Delegates are required to bring their own toiletries and any other personal items they may require.</li>
                                 <li>Allocation of hostels is at the sole discretion of the organizing committee and cannot be contested.</li>
