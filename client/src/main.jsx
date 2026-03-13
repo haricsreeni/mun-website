@@ -15,6 +15,12 @@ root.style.setProperty('--focus-ring', theme.focusRing);
 root.style.setProperty('--cta', theme.cta);
 root.style.setProperty('--cta-hover', theme.ctaHover);
 root.style.setProperty('--form-option-bg', theme.primary);
+root.style.setProperty('--text-primary', theme.textPrimary);
+root.style.setProperty('--text-secondary', theme.textSecondary);
+root.style.setProperty('--accent', theme.accent);
+root.style.setProperty('--accent-secondary', theme.accentSecondary);
+root.style.setProperty('--surface-bg', theme.surfaceBg);
+root.style.setProperty('--neutral', theme.neutral);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>

@@ -45,7 +45,7 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 0.75rem;
   padding: 0.875rem 1.25rem;
-  color: white;
+  color: var(--text-primary, white);
   font-size: 0.875rem;
   font-weight: 300;
   transition: all 0.3s ease;
@@ -60,7 +60,7 @@
 }
 
 .form-input-style:focus {
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: var(--accent-secondary, rgba(255, 255, 255, 0.5));
   background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 0 3px var(--focus-ring);
 }

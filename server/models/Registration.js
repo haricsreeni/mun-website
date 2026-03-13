@@ -4,74 +4,95 @@ const sequelize = require('../db');
 const Registration = sequelize.define(
   'Registration',
   {
-    fullName: {
+    /* ── Registration metadata ── */
+    registrationType: {
+      type: DataTypes.ENUM('individual', 'group'),
+      allowNull: false,
+      defaultValue: 'individual',
+    },
+    groupId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: null,
+    },
+
+    /* ── Personal information ── */
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: { msg: 'Full name is required' },
-      },
+      validate: { notEmpty: { msg: 'Name is required' } },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: { msg: 'Email is required' },
-        is: {
-          args: /^\S+@\S+\.\S+$/,
-          msg: 'Please enter a valid email',
-        },
+        is: { args: /^\S+@\S+\.\S+$/, msg: 'Please enter a valid email' },
+      },
+    },
+    classYear: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: { msg: 'Class/Year is required' } },
+    },
+    institution: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: { msg: 'Institution is required' } },
+    },
+    rollNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: '',
+    },
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Age is required' },
+        min: { args: [15], msg: 'Age must be at least 15' },
       },
     },
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: { msg: 'Phone number is required' },
-      },
+      validate: { notEmpty: { msg: 'Contact number is required' } },
     },
-    institution: {
+
+    /* ── MUN Experience ── */
+    munExperience: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: { msg: 'Institution is required' },
-      },
+      defaultValue: 'N/A',
     },
-    delegationType: {
-      type: DataTypes.ENUM('individual', 'institution'),
+
+    /* ── Committee preferences ── */
+    committeePref1: {
+      type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: { msg: 'Delegation type is required' },
-      },
+      validate: { notEmpty: { msg: 'Committee preference 1 is required' } },
     },
-    committee: {
-      type: DataTypes.ENUM('unsc', 'disec', 'unhrc', 'crisis'),
+    portfolioPref1: {
+      type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: { msg: 'Committee preference is required' },
-      },
+      validate: { notEmpty: { msg: 'Portfolio preference 1 is required' } },
     },
-    delegatesCount: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      validate: {
-        min: { args: [2], msg: 'Delegates count must be at least 2' },
-      },
+    committeePref2: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: { msg: 'Committee preference 2 is required' } },
     },
-    experience: {
-      type: DataTypes.ENUM('yes', 'no'),
-      allowNull: true,
-      defaultValue: null,
+    portfolioPref2: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: { msg: 'Portfolio preference 2 is required' } },
     },
+
+    /* ── Accommodation ── */
     accommodation: {
       type: DataTypes.ENUM('yes', 'no'),
       allowNull: true,
       defaultValue: null,
-    },
-    message: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-      defaultValue: '',
     },
   },
   {

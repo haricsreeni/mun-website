@@ -14,6 +14,11 @@ const palettes = {
         'primary-dark': '#0a3d3e',
         'background-dark': '#0e5354',
     },
+    maroon: {
+        primary: '#5c1620',
+        'primary-dark': '#4a111a',
+        'background-dark': '#5c1620',
+    },
 };
 
 const colors = palettes[THEME] || palettes.red;
@@ -28,6 +33,13 @@ const safelist = [
     'bg-teal-600', 'bg-teal-400', 'bg-emerald-500',
     'from-teal-700', 'to-teal-900',
     'from-emerald-800', 'to-emerald-950',
+    // Maroon palette
+    'bg-[#5c1620]', 'bg-[#F2A900]', 'bg-[#73202C]',
+    'from-[#5c1620]', 'to-[#4a111a]',
+    'from-[#73202C]', 'to-[#5c1620]',
+    'from-[#F2A900]/20', 'to-[#d99800]/10',
+    'from-[#8B3040]',
+    'from-[#4a111a]', 'to-[#3a0d14]',
     // Shared
     'bg-gradient-to-br',
     'from-white/10', 'to-white/5',

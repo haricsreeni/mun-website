@@ -8,9 +8,10 @@ export default function Navbar() {
     const isRegisterPage = location.pathname === '/register';
 
     const navLinks = [
+        { label: 'About Us', href: '/#about' },
         { label: 'Committees', href: '/#committees' },
-        { label: 'About', href: '/#about' },
-        { label: 'FAQ', href: '/#faq' },
+        { label: 'Resources', href: '/#resources' },
+        { label: 'FAQs', href: '/#faq' },
         { label: 'Contact', href: '/#contact' },
     ];
 
@@ -32,13 +33,22 @@ export default function Navbar() {
         >
             <div className="max-w-7xl mx-auto w-full px-6 flex items-center justify-between">
                 {/* Logo */}
-                <Link to="/" className="flex items-center gap-3 group">
-                    <span className="material-symbols-outlined text-white text-3xl transition-transform group-hover:scale-110">
-                        public
-                    </span>
+                <Link
+                    to="/"
+                    className="flex items-center gap-3 group"
+                    onClick={() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        setMobileOpen(false);
+                    }}
+                >
+                    <img
+                        src="/sabha_new.png"
+                        alt="Sabha MUN Logo"
+                        className="h-12 w-auto transition-transform group-hover:scale-105"
+                    />
                     <div className="flex flex-col">
-                        <span className="text-sm font-bold tracking-widest uppercase">IITM MUN</span>
-                        <span className="text-[10px] tracking-[0.2em] font-light opacity-80">2026</span>
+                        <span className="text-sm font-bold tracking-widest uppercase">Sabha</span>
+                        <span className="text-[10px] tracking-[0.2em] font-light opacity-80">IIT Madras MUN</span>
                     </div>
                 </Link>
 
